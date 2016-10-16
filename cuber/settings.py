@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'tastypie',
     'base',
     'taxi',
+    'travels'
 ]
 
 MIDDLEWARE = [
