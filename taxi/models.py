@@ -1,7 +1,6 @@
 from django.db import models
 
-from base.models import PrimaryModel
-from sorl.thumbnail import ImageField
+from base.models import PrimaryModel, BaseImage
 
 
 class Car(PrimaryModel):
@@ -32,13 +31,7 @@ class Driver(PrimaryModel):
         return ' '.join([self.first_name, self.last_name])
 
 
-class Image(models.Model):
-    picture = ImageField(upload_to='pictures')
-    description = models.TextField()
-
+class Image(BaseImage):
     # Related fields
     related_car = models.ForeignKey(Car, related_name='pictures', null=True, blank=True)
     related_driver = models.ForeignKey(Driver, related_name='images', null=True, blank=True)
-
-    def __str__(self):
-        return self.description
