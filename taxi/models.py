@@ -1,9 +1,10 @@
 from django.db import models
-from django.utils import timezone
+
+from base.models import PrimaryModel
 from sorl.thumbnail import ImageField
 
 
-class Car(models.Model):
+class Car(PrimaryModel):
     brand = models.CharField(max_length=250)
     year = models.PositiveSmallIntegerField()
 
@@ -11,7 +12,7 @@ class Car(models.Model):
         return ' '.join([self.brand, str(self.year)])
 
 
-class Driver(models.Model):
+class Driver(PrimaryModel):
     class Meta:
         ordering = ('rate',)
 
@@ -20,8 +21,6 @@ class Driver(models.Model):
     alias = models.CharField(max_length=250)
     id_number = models.CharField(max_length=50)
     license_number = models.CharField(max_length=50)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
     rate = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     cars = models.ManyToManyField(Car, related_name='drivers', blank=True)
 
@@ -34,12 +33,12 @@ class Driver(models.Model):
 
 
 class Image(models.Model):
-    image = ImageField(upload_to='pictures')
+    picture = ImageField(upload_to='pictures')
     description = models.TextField()
 
-    # Relationship fields
-    driver = models.ForeignKey(Driver, related_name='pictures', null=True, blank=True)
-    car = models.ForeignKey(Car, related_name='pictures', null=True, blank=True)
+    # Related fields
+    related_car = models.ForeignKey(Car, related_name='pictures', null=True, blank=True)
+    related_driver = models.ForeignKey(Driver, related_name='images', null=True, blank=True)
 
     def __str__(self):
         return self.description

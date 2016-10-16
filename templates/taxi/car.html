@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Car</title>
+</head>
+<body>
+{% for car in cars %}
+    <p><strong>Brand:</strong> {{ car.brand }}</p>
+    <p><strong>Year:</strong> {{ car.year }}</p>
+{% endfor %}
+</body>
+</html>
