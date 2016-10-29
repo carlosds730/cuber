@@ -35,8 +35,8 @@ class TravelRequest(BaseModelWithStatus):
     when = models.DateTimeField()
     duration = models.PositiveSmallIntegerField()
     travel = models.OneToOneField(Travel, related_name='request', null=True, blank=True)
-    assigned_car = models.ForeignKey(Car, related_name='travels', null=True, blank=True)
-    assigned_driver = models.ForeignKey(Driver, related_name='travels', null=True, blank=True)
+    assigned_car = models.ForeignKey(Car, related_name='travels_requests', null=True, blank=True)
+    assigned_driver = models.ForeignKey(Driver, related_name='requested_travels', null=True, blank=True)
 
 
 class TravelConfirmation(PrimaryModel):
@@ -44,5 +44,5 @@ class TravelConfirmation(PrimaryModel):
     # It must contain the assigned car and the driver.
     travel_request = models.OneToOneField(TravelRequest, related_name='confirmation', null=True, blank=True)
     confirmation_text = models.CharField(max_length=250)
-    assigned_car = models.ForeignKey(Car, related_name='travels', null=True, blank=True)
-    assigned_driver = models.ForeignKey(Driver, related_name='travels', null=True, blank=True)
+    assigned_car = models.ForeignKey(Car, related_name='confirmed_travels', null=True, blank=True)
+    assigned_driver = models.ForeignKey(Driver, related_name='travels_confirmed', null=True, blank=True)
