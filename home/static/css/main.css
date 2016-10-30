@@ -1,0 +1,54 @@
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+    padding-bottom: 2rem;
+}
+
+#carbonads-container {
+    display: none
+}
+
+[data-anchorjs-icon]::after {
+    content: ""
+}
+
+h1[id] {
+    padding-top: 0px;
+    margin-top: 20px
+}
+
+.zero-clipboard {
+    display: none !important
+}
+
+.bd-sidebar {
+    display: none !important
+}
+
+.bd-content {
+    right: 0px !important;
+    width: 100% !important
+}
+
+.bs-old-docs {
+    display: none
+}
+
+.bd-clipboard {
+    display: none !important
+}
+
+.bs-social {
+    display: none
+}
+
+.bs-sidebar {
+    display: none !important
+}
+
+.col-md-9[role=main] {
+    width: 100% !important
+}
+
+.navbar-fixed-top {
+    position: absolute !important
+}
