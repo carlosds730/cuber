@@ -20,8 +20,10 @@ from django.conf.urls.static import static
 from api.urls import v1_api
 
 urlpatterns = [
+    url(r'^', include('home.urls', namespace='home')),
     url(r'^admin/', admin.site.urls),
     url(r'^taxi/', include('taxi.urls', namespace='taxi')),
+    url(r'^auth/', include('account.urls', namespace='auth')),
     url(r'^api/', include(v1_api.urls, namespace='api'))
 ]
 
