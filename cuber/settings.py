@@ -131,6 +131,16 @@ THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.cached_db_kvstore.KVStore'
 
 THUMBNAIL_DEBUG = True
 
+# Email related settings
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-LOGIN_URL = '/auth/login/'
+# Auth related settings
+
+from django.core.urlresolvers import reverse_lazy
+
+LOGIN_URL = reverse_lazy('auth:login')
+
+LOGIN_REDIRECT_URL = reverse_lazy('home:home')
+
+LOGOUT_REDIRECT_URL = reverse_lazy('home:home')

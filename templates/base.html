@@ -21,12 +21,12 @@
     {% block core_css %}
         <!-- Bootstrap core CSS -->
         <link href="{% static 'externals/css/bootstrap.css' %}" rel="stylesheet">
-
+        <!-- Custom styles for the main template -->
+        <link href="{% static 'css/main.css' %}" rel="stylesheet">
     {% endblock %}
 
     {% block extra_css %}
-        <!-- Custom styles for this template -->
-        <link href="{% static 'css/main.css' %}" rel="stylesheet">
+
     {% endblock %}
 </head>
 
@@ -34,18 +34,29 @@
 
 {% block navbar %}
     <nav class="navbar navbar-static-top navbar-dark bg-inverse">
-        <a class="navbar-brand" href="#">Project name</a>
-        <ul class="nav navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Contact</a>
-            </li>
-        </ul>
+        <a class="navbar-brand" href="{% url 'home:home' %}"> <img src="{% static 'img/first_logo.png' %}"> </a>
+        {% if request.user.is_authenticated %}
+            <ul class="nav navbar-nav pull-right">
+                <li class="nav-item" onmouseover="toggleDropDown()">&nbsp;</li>
+                <li class="nav-item">
+                    <a class="nav-link active dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="true" onmouseover="toggleDropDown()">Hello {{ request.user.username }}</a>
+                    <div class="dropdown-menu dropdown-menu-right" onmouseleave="toggleDropDown()">
+                        <a class="dropdown-item" href="#">Dashboard</a>
+                        <a class="dropdown-item" href="{% url 'auth:logout' %}">Log out</a>
+                    </div>
+                </li>
+
+            </ul>
+            <ul>
+            </ul>
+        {% else %}
+            <ul class="nav navbar-nav pull-right">
+                <li class="nav-item"><a class="nav-link active" href="{% url 'auth:login' %}">Login</a></li>
+            </ul>
+            <ul>
+            </ul>
+        {% endif %}
     </nav>
 {% endblock %}
 
@@ -66,6 +77,16 @@
     <script src="{% static 'externals/js/bootstrap.min.js' %}"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="{% static 'externals/js/ie10-viewport-bug-workaround.js' %}"></script>
+    <script>
+        function toggleDropDown() {
+            {#            alert('Hello');#}
+            $('.dropdown-toggle').dropdown('toggle');
+        }
+
+        function showDropDown() {
+            $('.dropdown-toggle').dropdown('open');
+        }
+    </script>
 {% endblock %}
 {% block extra_js %}
 {% endblock %}

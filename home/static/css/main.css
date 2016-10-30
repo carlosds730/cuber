@@ -52,3 +52,20 @@ h1[id] {
 .navbar-fixed-top {
     position: absolute !important
 }
+
+.bg-inverse {
+    background-color: #064a77;
+}
+
+.navbar-brand > img {
+    max-height: 30px;
+}
+
+.dropdown-item:hover{
+    background-color: #064a77;
+    color: white;
+}
+
+.dropdown-menu {
+  margin: 2px 0 0;
+}
