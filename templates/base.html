@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    {% block socialo_tags %}
+    {% block social_tags %}
     {% endblock %}
 
     {% block title %}
@@ -22,11 +22,11 @@
         <!-- Bootstrap core CSS -->
         <link href="{% static 'externals/css/bootstrap.css' %}" rel="stylesheet">
 
-        <!-- Custom styles for this template -->
-        <link href="{% static 'css/main.css' %}" rel="stylesheet">
     {% endblock %}
 
     {% block extra_css %}
+        <!-- Custom styles for this template -->
+        <link href="{% static 'css/main.css' %}" rel="stylesheet">
     {% endblock %}
 </head>
 
@@ -49,7 +49,7 @@
     </nav>
 {% endblock %}
 
-{% block main_contenct %}
+{% block main_content %}
 {% endblock %}
 
 {% block bootstrap_core_javascripts %}

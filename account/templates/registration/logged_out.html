@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    <title>Logged out</title>
+{% endblock %}
+{% block extra_css %}
+    <link href="{% static 'css/signin.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block main_content %}
+    <h1>Logged out</h1>
+    <p>You have been successfully logged out. You can <a href="{% url "auth:login" %}">log-in again</a>.</p>
+{% endblock %}
