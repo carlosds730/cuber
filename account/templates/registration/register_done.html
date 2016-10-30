@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    <title>Welcome</title>
+{% endblock %}
+{% block extra_css %}
+    <link href="{% static 'css/signin.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block main_content %}
+    <h1>Welcome {{ new_user.first_name }}!</h1>
+    <p>Your account has been successfully created. Now you can <a
+            href="{% url "auth:login" %}">log in</a>.</p>
+{% endblock %}

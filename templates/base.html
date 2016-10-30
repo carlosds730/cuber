@@ -53,6 +53,7 @@
         {% else %}
             <ul class="nav navbar-nav pull-right">
                 <li class="nav-item"><a class="nav-link active" href="{% url 'auth:login' %}">Login</a></li>
+                <li class="nav-item"><a class="nav-link active" href="{% url 'auth:register' %}">Sign Up</a></li>
             </ul>
             <ul>
             </ul>
@@ -81,10 +82,6 @@
         function toggleDropDown() {
             {#            alert('Hello');#}
             $('.dropdown-toggle').dropdown('toggle');
-        }
-
-        function showDropDown() {
-            $('.dropdown-toggle').dropdown('open');
         }
     </script>
 {% endblock %}
