@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'tinymce',
     'account',
     'sorl.thumbnail',
     'tastypie',
@@ -136,6 +137,7 @@ THUMBNAIL_DEBUG = True
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Auth related settings
+ALLOW_LOGIN = False
 
 from django.core.urlresolvers import reverse_lazy
 
@@ -144,3 +146,14 @@ LOGIN_URL = reverse_lazy('auth:login')
 LOGIN_REDIRECT_URL = reverse_lazy('home:home')
 
 LOGOUT_REDIRECT_URL = reverse_lazy('home:home')
+
+# tinymce related settings
+TINYMCE_DEFAULT_CONFIG = {
+    'plugins': "table,spellchecker,paste,searchreplace",
+    'theme': "advanced",
+    'cleanup_on_startup': True,
+    # 'custom_undo_redo_levels': 10,
+    'width': 650,
+    # 'cols': 180,
+    # 'rows': 300
+}

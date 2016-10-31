@@ -1,0 +1,28 @@
+.text-container {
+    margin-top: 10%;
+    width: 50%;
+}
+
+.text-container > h1 {
+    text-align: center;
+    margin-bottom: 23px;
+}
+
+@media (max-width: 1024px) {
+    .text-container {
+        width: 80%;
+        margin-top: 17%;
+    }
+}
+
+@media (max-width: 500px) {
+    .text-container {
+        width: 70%;
+    }
+}
+
+@media (max-width: 320px) {
+    .text-container {
+        width: 90%;
+    }
+}

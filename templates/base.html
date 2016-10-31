@@ -42,7 +42,7 @@
                     <a class="nav-link active dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="true" onmouseover="toggleDropDown()">Hello {{ request.user.username }}</a>
                     <div class="dropdown-menu dropdown-menu-right" onmouseleave="toggleDropDown()">
-                        <a class="dropdown-item" href="#">Dashboard</a>
+{#                        <a class="dropdown-item" href="#">Dashboard</a>#}
                         <a class="dropdown-item" href="{% url 'auth:logout' %}">Log out</a>
                     </div>
                 </li>
@@ -50,7 +50,7 @@
             </ul>
             <ul>
             </ul>
-        {% else %}
+        {% elif allow_login %}
             <ul class="nav navbar-nav pull-right">
                 <li class="nav-item"><a class="nav-link active" href="{% url 'auth:login' %}">Login</a></li>
                 <li class="nav-item"><a class="nav-link active" href="{% url 'auth:register' %}">Sign Up</a></li>

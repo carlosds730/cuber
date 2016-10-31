@@ -59,6 +59,7 @@ h1[id] {
 
 .navbar-brand > img {
     max-height: 30px;
+    max-width: 100%;
 }
 
 .dropdown-item:hover{

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    <title>Almendrones Habana</title>
+{% endblock %}
+{% block extra_css %}
+    <link href="{% static 'css/home.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block main_content %}
+    <div class="text-container center-block">
+        <h1>{{ main_text.title }}</h1>
+        {{ main_text.text|safe }}
+    </div>
+{% endblock %}
