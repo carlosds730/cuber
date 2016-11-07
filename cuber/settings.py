@@ -157,3 +157,8 @@ TINYMCE_DEFAULT_CONFIG = {
     # 'cols': 180,
     # 'rows': 300
 }
+
+# API related settings
+API_NAME = 'v1'
+
+API_ENTRY_POINT = '/api/{0}/'.format(API_NAME)

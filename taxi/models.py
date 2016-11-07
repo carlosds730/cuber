@@ -4,6 +4,8 @@ from base.models import PrimaryModel, BaseImage
 
 
 class Car(PrimaryModel):
+    RESOURCE_NAME = 'car'
+
     brand = models.CharField(max_length=250)
     year = models.PositiveSmallIntegerField()
 
