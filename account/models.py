@@ -4,6 +4,8 @@ from sorl.thumbnail import ImageField
 
 
 class Profile(models.Model):
+    RESOURCE_NAME = 'profile'
+
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
 
     photo = ImageField(upload_to='users/%Y/%m/%d',

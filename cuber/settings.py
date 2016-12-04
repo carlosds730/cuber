@@ -137,7 +137,7 @@ THUMBNAIL_DEBUG = True
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Auth related settings
-ALLOW_LOGIN = False
+ALLOW_LOGIN = True
 
 from django.core.urlresolvers import reverse_lazy
 

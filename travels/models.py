@@ -23,6 +23,7 @@ class Travel(BaseModelWithStatus):
 
 
 class TravelRequest(BaseModelWithStatus):
+    RESOURCE_NAME = 'travelrequest'
     STATUS_DISMISSED = (-3, 'Dismissed')  # When the taxi's owner said Yes, but the client didn't confirm
     STATUS_CANCELED = (-2, 'Canceled')  # When the client cancels
     STATUS_FAILED = (-1, 'Failed')  # When the taxi owner says No
