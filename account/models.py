@@ -13,3 +13,13 @@ class Profile(models.Model):
 
     def __str__(self):
         return 'Profile for user {}'.format(self.user.username)
+
+    def save(self, *args, **kwargs):
+        # Check if we are updating or creating an object
+        update = True if self.pk else False
+        # Save the object
+        super(Profile, self).save(*args, **kwargs)
+        # If we are not updating, create the Api Key
+        if not update:
+            from tastypie.models import ApiKey
+            ApiKey.objects.create(user=self.user)
