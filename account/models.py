@@ -19,6 +19,7 @@ class Profile(models.Model):
         update = True if self.pk else False
         # Save the object
         super(Profile, self).save(*args, **kwargs)
+        # TODO: Randomly change the key
         # If we are not updating, create the Api Key
         if not update:
             from tastypie.models import ApiKey
