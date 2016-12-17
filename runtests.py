@@ -10,5 +10,5 @@ if __name__ == "__main__":
     django.setup()
     TestRunner = get_runner(settings)
     test_runner = TestRunner()
-    failures = test_runner.run_tests(["tests", 'api.tests.auth'])
+    failures = test_runner.run_tests(None)
     sys.exit(bool(failures))

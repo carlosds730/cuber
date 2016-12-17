@@ -1,10 +1,8 @@
-from tastypie.resources import ModelResource
-from tastypie.authentication import MultiAuthentication, BasicAuthentication, ApiKeyAuthentication
+from util.api import BasicResourceNoAuth
 from taxi.models import Car
 
 
-class CarResource(ModelResource):
-    class Meta:
+class CarResource(BasicResourceNoAuth):
+    class Meta(BasicResourceNoAuth.Meta):
         queryset = Car.objects.all()
         resource_name = Car.RESOURCE_NAME
-        authentication = MultiAuthentication(BasicAuthentication(), ApiKeyAuthentication())

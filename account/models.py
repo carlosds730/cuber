@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from sorl.thumbnail import ImageField
+from tastypie.models import ApiKey
 
 
 class Profile(models.Model):
@@ -14,6 +15,13 @@ class Profile(models.Model):
     def __str__(self):
         return 'Profile for user {}'.format(self.user.username)
 
+    def get_my_key(self):
+        """
+            Returns the api key for this profile
+        :return: ApiKey
+        """
+        return ApiKey.objects.get(user=self.user).key
+
     def save(self, *args, **kwargs):
         # Check if we are updating or creating an object
         update = True if self.pk else False
@@ -22,5 +30,4 @@ class Profile(models.Model):
         # TODO: Randomly change the key
         # If we are not updating, create the Api Key
         if not update:
-            from tastypie.models import ApiKey
             ApiKey.objects.create(user=self.user)

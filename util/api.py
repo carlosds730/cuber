@@ -8,3 +8,9 @@ class BasicResource(ModelResource):
         authentication = MultiAuthentication(ApiKeyAuthentication(), SessionAuthentication())
         list_allowed_methods = []
         detail_allowed_methods = ['get']
+
+
+class BasicResourceNoAuth(ModelResource):
+    class Meta:
+        list_allowed_methods = ['get']
+        detail_allowed_methods = ['get']
