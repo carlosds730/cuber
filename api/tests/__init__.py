@@ -57,19 +57,26 @@ class APIAllowedMethodsTestsMixin(BasicAPITest):
     def _test_list_responses_unauthenticated(self):
         for verb in self.LIST_EXPECTED_RESPONSES:
             print(verb, self.LIST_EXPECTED_RESPONSES[verb])
+            if verb in ('put', 'post'):
+                data = {'some', 'thing'}
             self.assertEqual(getattr(self.api_client, verb)(self.RESOURCE_LIST_URI, format='json').status_code,
                              self.LIST_EXPECTED_RESPONSES[verb])
 
     def _test_list_responses_authenticated(self, profile):
         self.set_credentials(profile=profile)
         for verb in self.AUTHENTICATED_LIST_EXPECTED_RESPONSES:
+            if verb in ('put', 'post'):
+                data = {'some', 'thing'}
             self.assertEqual(getattr(self.api_client, verb)(self.RESOURCE_LIST_URI, format='json').status_code,
                              self.AUTHENTICATED_LIST_EXPECTED_RESPONSES[verb])
+        self.clear_credentials()
 
     def _test_details_responses_unauthenticated(self):
         detail_resource_uri = "{0}{1}/".format(self.RESOURCE_LIST_URI, self.OBJECT_ID)
         for verb in self.DETAIL_EXPECTED_RESPONSES:
-            print(verb, self.LIST_EXPECTED_RESPONSES[verb])
+            if verb in ('put', 'post'):
+                data = {'some', 'thing'}
+            print(verb, self.DETAIL_EXPECTED_RESPONSES[verb])
             self.assertEqual(getattr(self.api_client, verb)(detail_resource_uri, format='json').status_code,
                              self.DETAIL_EXPECTED_RESPONSES[verb])
 
@@ -77,9 +84,14 @@ class APIAllowedMethodsTestsMixin(BasicAPITest):
         self.set_credentials(profile=profile)
         detail_resource_uri = "{0}{1}/".format(self.RESOURCE_LIST_URI, self.OBJECT_ID)
         for verb in self.AUTHENTICATED_DETAIL_EXPECTED_RESPONSES:
-            resp = getattr(self.api_client, verb)(detail_resource_uri, format='json')
+            print(verb, self.AUTHENTICATED_DETAIL_EXPECTED_RESPONSES[verb])
+            data = None
+            if verb in ('put', 'post'):
+                data = {'some', 'thing'}
+            resp = getattr(self.api_client, verb)(detail_resource_uri, data=data, format='json')
             self.assertEqual(resp.status_code,
                              self.AUTHENTICATED_DETAIL_EXPECTED_RESPONSES[verb])
+        self.clear_credentials()
 
     def run_base_tests(self, profile=None):
         """
@@ -87,7 +99,7 @@ class APIAllowedMethodsTestsMixin(BasicAPITest):
             If a profile is passed, it will be used in all tests that require authentication
         :param profile: Profile
         """
-        self._test_list_responses_unauthenticated()
         self._test_list_responses_authenticated(profile)
-        self._test_details_responses_unauthenticated()
+        self._test_list_responses_unauthenticated()
         self._test_details_responses_authenticated(profile)
+        self._test_details_responses_unauthenticated()

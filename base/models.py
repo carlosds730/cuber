@@ -33,8 +33,8 @@ class PrimaryModel(models.Model):
 
 
 class BaseModelWithStatus(PrimaryModel):
-    STATUS_CREATED = (0, 'Created')
-    STATUS_CHOICES = [STATUS_CREATED]
+    STATUS_CREATED = 0
+    STATUS_CHOICES = [(STATUS_CREATED, 'Created')]
     status = models.IntegerField(choices=STATUS_CHOICES, default=STATUS_CREATED)
 
     class Meta:

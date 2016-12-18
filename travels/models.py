@@ -5,14 +5,18 @@ from account.models import Profile
 
 
 class Travel(BaseModelWithStatus):
-    STATUS_DRIVERS_FAULT = (-3, 'Driver\'s fault')  # The Driver didn't show
-    STATUS_NO_SHOW = (-2, 'No show')  # The Client didn't show
-    STATUS_CANCELED = (-1, 'Canceled')  # The Client cancelled the travel after the TravelRequest was confirmed
+    STATUS_DRIVERS_FAULT = -3  # The Driver didn't show
+    STATUS_NO_SHOW = -2  # The Client didn't show
+    STATUS_CANCELED = -1  # The Client cancelled the travel after the TravelRequest was confirmed
 
-    STATUS_COMPLETED = (1, 'Completed')
+    STATUS_COMPLETED = 1
 
-    STATUS_CHOICES = [STATUS_DRIVERS_FAULT, STATUS_NO_SHOW, STATUS_CANCELED, BaseModelWithStatus.STATUS_CREATED,
-                      STATUS_COMPLETED]
+    STATUS_CHOICES = BaseModelWithStatus.STATUS_CHOICES + [
+        (STATUS_DRIVERS_FAULT, 'Driver\'s fault'),
+        (STATUS_NO_SHOW, 'No show'),
+        (STATUS_CANCELED, 'Canceled'),
+        (STATUS_COMPLETED, 'Completed'),
+    ]
 
     when = models.DateTimeField()
     assigned_car = models.ForeignKey(Car, related_name='travels')
@@ -24,20 +28,25 @@ class Travel(BaseModelWithStatus):
 
 class TravelRequest(BaseModelWithStatus):
     RESOURCE_NAME = 'travelrequest'
-    STATUS_DISMISSED = (-3, 'Dismissed')  # When the taxi's owner said Yes, but the client didn't confirm
-    STATUS_CANCELED = (-2, 'Canceled')  # When the client cancels
-    STATUS_FAILED = (-1, 'Failed')  # When the taxi owner says No
-    STATUS_PENDING_CONFIRMATION_FROM_TAXI_OWNER = (
-        1, 'Pending confirmation from taxi\'s owner')  # Waiting for the taxi's owner to respond
-    STATUS_CONFIRMED_FROM_TAXI_OWNER = (2, 'Confirmed from taxi\'s owner')  # Confirmed by the taxi's owner
-    STATUS_PENDING_CONFIRMATION_FROM_CLIENT = (
-        3, 'Pending confirmation from the client')  # Waiting for the client to confirm
-    STATUS_CONFIRMED = (4, 'Confirmed')  # Both taxi's owner and client have confirmed
+    STATUS_DISMISSED = -3  # When the taxi's owner said Yes, but the client didn't confirm
+    STATUS_CANCELED = -2  # When the client cancels
+    STATUS_FAILED = -1  # When the taxi owner says No
+    STATUS_PENDING_CONFIRMATION_FROM_TAXI_OWNER = 1  # Waiting for the taxi's owner to respond
+    STATUS_CONFIRMED_FROM_TAXI_OWNER = 2  # Confirmed by the taxi's owner
+    STATUS_PENDING_CONFIRMATION_FROM_CLIENT = 3  # Waiting for the client to confirm
+    STATUS_CONFIRMED = 4  # Both taxi's owner and client have confirmed
 
-    STATUS_CHOICES = [STATUS_DISMISSED, STATUS_CANCELED, STATUS_FAILED, BaseModelWithStatus.STATUS_CREATED,
-                      STATUS_PENDING_CONFIRMATION_FROM_TAXI_OWNER,
-                      STATUS_CONFIRMED_FROM_TAXI_OWNER,
-                      STATUS_PENDING_CONFIRMATION_FROM_CLIENT, STATUS_CONFIRMED]
+    STATUS_CHOICES = BaseModelWithStatus.STATUS_CHOICES + [(STATUS_DISMISSED, 'Dismissed'),
+                                                           (STATUS_CANCELED, 'Canceled'),
+                                                           (STATUS_FAILED, 'Failed'),
+                                                           (STATUS_PENDING_CONFIRMATION_FROM_TAXI_OWNER,
+                                                            'Pending confirmation from taxi\'s owner'),
+                                                           (STATUS_CONFIRMED_FROM_TAXI_OWNER,
+                                                            'Confirmed from taxi\'s owner'),
+                                                           (STATUS_PENDING_CONFIRMATION_FROM_CLIENT,
+                                                            'Pending confirmation from the client'),
+                                                           (STATUS_CONFIRMED, 'Confirmed')
+                                                           ]
 
     when = models.DateTimeField()
     duration = models.PositiveSmallIntegerField(verbose_name='Duration', help_text='Travel duration (in hours)')
