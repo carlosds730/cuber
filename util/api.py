@@ -2,7 +2,18 @@ from tastypie.resources import ModelResource
 from tastypie.authentication import MultiAuthentication, ApiKeyAuthentication, \
     SessionAuthentication
 from tastypie.authorization import Authorization
-from tastypie.exceptions import Unauthorized
+from tastypie.exceptions import TastypieError, Unauthorized
+from tastypie.http import HttpResponse, HttpApplicationError
+
+
+class BasicAPIException(TastypieError):
+    def __init__(self, response=None, *args, **kwargs):
+        # If there is not response, we assume is a 500 error
+        if not response:
+            self.response = HttpApplicationError()
+        if not isinstance(response, HttpResponse):
+            raise ValueError("{0} is not a valid HttpResponse".format(response))
+        self.response = response
 
 
 class UserObjectsOnlyAuthorization(Authorization):

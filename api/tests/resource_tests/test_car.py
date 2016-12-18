@@ -35,6 +35,6 @@ class CarResourceAllowedMethods(APIAllowedMethodsTestsMixin):
         self.run_base_tests()
 
 
-class CarTest(BasicAPITest):
+class CarResourceTest(BasicAPITest):
     RESOURCE_LIST_URI = Car.resource_list_uri()
 

@@ -5,18 +5,24 @@ from tests import BasicTest
 
 class BasicAPITest(ResourceTestCaseMixin, BasicTest):
     RESOURCE_LIST_URI = None
+    DEFAULT_USER_NAME = 'test_user'
+    DEFAULT_USER_PASS = 'pass'
+    DEFAULT_USER_EMAIL = 'test_user@cuber.com'
 
     def setUp(self):
         super(BasicAPITest, self).setUp()
 
         # Create a profile
-        self.profile = BasicAPITest.create_user(user_name='test_user', password='pass', email='test_user@cuber.com')
+        self.profile = BasicAPITest.create_user(user_name=self.DEFAULT_USER_NAME, password=self.DEFAULT_USER_PASS,
+                                                email=self.DEFAULT_USER_EMAIL)
 
     def tearDown(self):
         super(BasicAPITest, self).tearDown()
 
         # Clear the credentials
         self.clear_credentials()
+        # Logout
+        self.api_client.client.logout()
 
     def get_credentials(self, profile=None):
         if not profile:
@@ -57,27 +63,32 @@ class APIAllowedMethodsTestsMixin(BasicAPITest):
     def _test_list_responses_unauthenticated(self):
         for verb in self.LIST_EXPECTED_RESPONSES:
             print(verb, self.LIST_EXPECTED_RESPONSES[verb])
+            data = None
             if verb in ('put', 'post'):
                 data = {'some', 'thing'}
-            self.assertEqual(getattr(self.api_client, verb)(self.RESOURCE_LIST_URI, format='json').status_code,
-                             self.LIST_EXPECTED_RESPONSES[verb])
+            self.assertEqual(
+                getattr(self.api_client, verb)(self.RESOURCE_LIST_URI, data=data, format='json').status_code,
+                self.LIST_EXPECTED_RESPONSES[verb])
 
     def _test_list_responses_authenticated(self, profile):
         self.set_credentials(profile=profile)
         for verb in self.AUTHENTICATED_LIST_EXPECTED_RESPONSES:
+            data = None
             if verb in ('put', 'post'):
                 data = {'some', 'thing'}
-            self.assertEqual(getattr(self.api_client, verb)(self.RESOURCE_LIST_URI, format='json').status_code,
-                             self.AUTHENTICATED_LIST_EXPECTED_RESPONSES[verb])
+            self.assertEqual(
+                getattr(self.api_client, verb)(self.RESOURCE_LIST_URI, data=data, format='json').status_code,
+                self.AUTHENTICATED_LIST_EXPECTED_RESPONSES[verb])
         self.clear_credentials()
 
     def _test_details_responses_unauthenticated(self):
         detail_resource_uri = "{0}{1}/".format(self.RESOURCE_LIST_URI, self.OBJECT_ID)
         for verb in self.DETAIL_EXPECTED_RESPONSES:
+            data = None
             if verb in ('put', 'post'):
                 data = {'some', 'thing'}
             print(verb, self.DETAIL_EXPECTED_RESPONSES[verb])
-            self.assertEqual(getattr(self.api_client, verb)(detail_resource_uri, format='json').status_code,
+            self.assertEqual(getattr(self.api_client, verb)(detail_resource_uri, data=data, format='json').status_code,
                              self.DETAIL_EXPECTED_RESPONSES[verb])
 
     def _test_details_responses_authenticated(self, profile):
