@@ -2,7 +2,7 @@ import datetime
 from api.tests import BasicAPITest
 
 
-class Car(BasicAPITest):
+class CarTest(BasicAPITest):
     def test_get_list_unauthenticated(self):
         self.assertHttpOK(self.api_client.get('/api/v1/car/', format='json'))
 

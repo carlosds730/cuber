@@ -5,7 +5,7 @@ from account.api import ProfileResource
 
 
 class TravelRequestResource(BasicResource):
-    client = fields.ForeignKey(ProfileResource, 'client')
+    # client = fields.ForeignKey(ProfileResource, 'client')
 
     class Meta(BasicResource.Meta):
         queryset = TravelRequest.objects.all()
