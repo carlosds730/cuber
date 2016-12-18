@@ -8,6 +8,7 @@ class BasicAPITest(ResourceTestCaseMixin, BasicTest):
     DEFAULT_USER_NAME = 'test_user'
     DEFAULT_USER_PASS = 'pass'
     DEFAULT_USER_EMAIL = 'test_user@cuber.com'
+    SESSIONS_LIST_URI = '/api/v1/sessions/'
 
     def setUp(self):
         super(BasicAPITest, self).setUp()
@@ -29,8 +30,22 @@ class BasicAPITest(ResourceTestCaseMixin, BasicTest):
             profile = self.profile
         return self.create_apikey(username=profile.user.username, api_key=profile.get_my_key())
 
-    def set_credentials(self, profile=None):
+    def set_api_credentials(self, profile=None):
         self.api_client.client.defaults['HTTP_AUTHORIZATION'] = self.get_credentials(profile)
+
+    def login(self, username=None, password=None, expected_result=201):
+        if not username and not password:
+            username = self.DEFAULT_USER_NAME
+            password = self.DEFAULT_USER_PASS
+
+        resp = self.api_client.post(self.RESOURCE_LIST_URI, data={
+            'username': username,
+            'password': password
+        })
+
+        self.assertEqual(resp.status_code, expected_result)
+
+        return resp
 
     def clear_credentials(self):
         if 'HTTP_AUTHORIZATION' in self.client.defaults:
@@ -71,7 +86,7 @@ class APIAllowedMethodsTestsMixin(BasicAPITest):
                 self.LIST_EXPECTED_RESPONSES[verb])
 
     def _test_list_responses_authenticated(self, profile):
-        self.set_credentials(profile=profile)
+        self.set_api_credentials(profile=profile)
         for verb in self.AUTHENTICATED_LIST_EXPECTED_RESPONSES:
             data = None
             if verb in ('put', 'post'):
@@ -92,7 +107,7 @@ class APIAllowedMethodsTestsMixin(BasicAPITest):
                              self.DETAIL_EXPECTED_RESPONSES[verb])
 
     def _test_details_responses_authenticated(self, profile):
-        self.set_credentials(profile=profile)
+        self.set_api_credentials(profile=profile)
         detail_resource_uri = "{0}{1}/".format(self.RESOURCE_LIST_URI, self.OBJECT_ID)
         for verb in self.AUTHENTICATED_DETAIL_EXPECTED_RESPONSES:
             print(verb, self.AUTHENTICATED_DETAIL_EXPECTED_RESPONSES[verb])

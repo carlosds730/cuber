@@ -30,12 +30,18 @@ class SessionResourceTest(BasicAPITest):
     RESOURCE_LIST_URI = '/api/v1/sessions/'
 
     def test_incorrect_password(self):
-        resp = self.api_client.post(self.RESOURCE_LIST_URI, data={
-            'username': self.DEFAULT_USER_NAME,
-            'password': "{0} fake-pass".format(self.DEFAULT_USER_PASS)
-        })
+        resp = self.login(username=self.DEFAULT_USER_NAME, password="{0} fake-pass".format(self.DEFAULT_USER_PASS),
+                          expected_result=401)
 
-        self.assertHttpUnauthorized(resp)
+        # We didn't send any cookies in the response
+        self.assertEqual(len(resp.cookies), 0)
+
+        # There is no csrftoken set in the test client
+        self.assertNotIn('csrftoken', self.api_client.client.cookies)
+
+    def test_incorrect_user(self):
+        resp = self.login(username="{0} fake-user".format(self.DEFAULT_USER_NAME),
+                          password=self.DEFAULT_USER_PASS, expected_result=401)
 
         # We didn't send any cookies in the response
         self.assertEqual(len(resp.cookies), 0)
@@ -44,14 +50,14 @@ class SessionResourceTest(BasicAPITest):
         self.assertNotIn('csrftoken', self.api_client.client.cookies)
 
     def test_successful_post(self):
-        resp = self.api_client.post(self.RESOURCE_LIST_URI, data={
-            'username': self.DEFAULT_USER_NAME,
-            'password': self.DEFAULT_USER_PASS
-        })
-
-        self.assertHttpCreated(resp)
+        resp = self.login()
 
         cookie = resp.cookies
 
+        # Verify we sent cookies in the response
         self.assertIn('csrftoken', cookie)
         self.assertIn('sessionid', cookie)
+
+        # Verify that cookies are now set in the test client
+        self.assertEqual(cookie['csrftoken'], self.api_client.client.cookies['csrftoken'])
+        self.assertEqual(cookie['sessionid'], self.api_client.client.cookies['sessionid'])
