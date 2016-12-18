@@ -13,22 +13,24 @@ class UserObjectsOnlyAuthorization(Authorization):
     def read_detail(self, object_list, bundle):
         # Is the requested object owned by the user?
         if hasattr(bundle.obj, 'client'):
-            return bundle.obj.client.user == bundle.request.user
+            if bundle.obj.client.user == bundle.request.user:
+                return True
+            raise Unauthorized
         return True
 
-    def create_list(self, object_list, bundle):
-        # Assuming they're auto-assigned to ``user``.
-        return object_list
-
     def create_detail(self, object_list, bundle):
-        return bundle.obj.user == bundle.request.user
+        if hasattr(bundle.obj, 'client'):
+            if bundle.obj.client.user == bundle.request.user:
+                return True
+        raise Unauthorized
 
     def update_list(self, object_list, bundle):
         allowed = []
         # Since they may not all be saved, iterate over them.
         for obj in object_list:
-            if obj.user == bundle.request.user:
-                allowed.append(obj)
+            if hasattr(obj, 'client'):
+                if obj.client.user == bundle.request.user:
+                    allowed.append(obj)
         return allowed
 
     def update_detail(self, object_list, bundle):
