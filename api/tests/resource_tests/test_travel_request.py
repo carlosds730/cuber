@@ -1,4 +1,5 @@
 import datetime
+import json
 from api.tests import BasicAPITest, APIAllowedMethodsTestsMixin
 from travels.tests import TravelTestMixin
 from travels.models import TravelRequest
@@ -25,3 +26,23 @@ class TravelRequestAllowedMethods(APIAllowedMethodsTestsMixin, TravelTestMixin):
         new_user = self.create_user()
 
         self.run_base_tests(new_user)
+
+
+class TravelRequestResource(BasicAPITest, TravelTestMixin):
+    RESOURCE_LIST_URI = TravelRequest.resource_list_uri
+
+    def setUp(self):
+        super(TravelRequestResource, self).setUp()
+
+        self.travel_request = TravelTestMixin.create_travel_request(self.profile)
+
+    def test_obtain_my_travel_requests(self):
+        resource_detail_uri = self.travel_request.resource_detail_uri
+        # Log the user
+        self.login()
+
+        resp = self.api_client.get(resource_detail_uri)
+        self.assertHttpOK(resp)
+
+        self.assertValidJSONResponse(resp)
+        resp_content = self.deserialize(resp)

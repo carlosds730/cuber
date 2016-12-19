@@ -38,7 +38,7 @@ class BasicAPITest(ResourceTestCaseMixin, BasicTest):
             username = self.DEFAULT_USER_NAME
             password = self.DEFAULT_USER_PASS
 
-        resp = self.api_client.post(self.RESOURCE_LIST_URI, data={
+        resp = self.api_client.post(self.SESSIONS_LIST_URI, data={
             'username': username,
             'password': password
         })

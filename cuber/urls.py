@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^taxi/', include('taxi.urls', namespace='taxi')),
     url(r'^auth/', include('account.urls', namespace='auth')),
-    url(r'^api/', include(v1_api.urls, namespace='api'))
+    url(r'^api/', include(v1_api.urls))
 ]
 
 # This part is only to set serve the static files during development

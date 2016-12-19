@@ -22,7 +22,7 @@ class PrimaryModel(models.Model):
     def _resource_detail_uri(cls, object_id):
         if not cls.RESOURCE_NAME or not object_id:
             return None
-        return "{0}/{1}/".format(cls.abs_resource_list_uri(), object_id)
+        return "{0}{1}/".format(cls.resource_list_uri(), object_id)
 
     @property
     def resource_detail_uri(self):
